@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: govassist
+    description: GovAssist schemes and conversational guidance
 paths:
   /healthz:
     get:
@@ -24,6 +26,50 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /schemes:
+    get:
+      operationId: listSchemes
+      tags: [govassist]
+      summary: List available sample schemes
+      responses:
+        "200":
+          description: Available schemes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Scheme"
+  /chat:
+    post:
+      operationId: sendChatMessage
+      tags: [govassist]
+      summary: Get bilingual scheme and application guidance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatInput"
+      responses:
+        "200":
+          description: Assistant response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: The language model is not configured or is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +79,126 @@ components:
           type: string
       required:
         - status
+    SchemeField:
+      type: object
+      properties:
+        id:
+          type: string
+        label_en:
+          type: string
+        label_ta:
+          type: string
+        type:
+          type: string
+          enum: [text, number]
+      required: [id, label_en, label_ta, type]
+    Scheme:
+      type: object
+      properties:
+        id:
+          type: string
+        name_en:
+          type: string
+        name_ta:
+          type: string
+        category_en:
+          type: string
+        category_ta:
+          type: string
+        summary_en:
+          type: string
+        summary_ta:
+          type: string
+        eligibility_en:
+          type: string
+        eligibility_ta:
+          type: string
+        documents_en:
+          type: array
+          items:
+            type: string
+        documents_ta:
+          type: array
+          items:
+            type: string
+        form_fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/SchemeField"
+        source:
+          type: string
+        source_label:
+          type: string
+      required:
+        - id
+        - name_en
+        - name_ta
+        - category_en
+        - category_ta
+        - summary_en
+        - summary_ta
+        - eligibility_en
+        - eligibility_ta
+        - documents_en
+        - documents_ta
+        - form_fields
+        - source
+        - source_label
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+          maxLength: 2000
+      required: [role, content]
+    ChatContext:
+      type: object
+      properties:
+        stage:
+          type: string
+          enum: [discover, eligibility, form, readback, complete]
+        schemeId:
+          type: ["string", "null"]
+        currentFieldId:
+          type: ["string", "null"]
+        answers:
+          type: object
+          additionalProperties:
+            type: string
+      required: [stage]
+    ChatInput:
+      type: object
+      properties:
+        message:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        language:
+          type: string
+          enum: [ta, en]
+        conversationHistory:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+          maxItems: 20
+        context:
+          $ref: "#/components/schemas/ChatContext"
+      required: [message, language, conversationHistory, context]
+    ChatResponse:
+      type: object
+      properties:
+        reply:
+          type: string
+        matchedSchemeId:
+          type: ["string", "null"]
+      required: [reply, matchedSchemeId]
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
 

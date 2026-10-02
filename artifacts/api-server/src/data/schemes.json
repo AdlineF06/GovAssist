@@ -1,0 +1,122 @@
+[
+  {
+    "id": "tn-new-ration-card",
+    "name_en": "Tamil Nadu new family card",
+    "name_ta": "தமிழ்நாடு புதிய குடும்ப அட்டை",
+    "category_en": "Food and essentials",
+    "category_ta": "உணவு மற்றும் அத்தியாவசியங்கள்",
+    "summary_en": "A guided overview of the Tamil Nadu new family card service.",
+    "summary_ta": "தமிழ்நாட்டில் புதிய குடும்ப அட்டைக்கு விண்ணப்பிக்கும் சேவைக்கான வழிகாட்டி.",
+    "eligibility_en": "The applicant and family must be Indian citizens, ordinarily live in Tamil Nadu, live and cook separately, and not already be members of another family card. Confirm the current rules with the official service.",
+    "eligibility_ta": "விண்ணப்பதாரரும் குடும்பத்தினரும் இந்தியக் குடிமக்களாகவும், தமிழ்நாட்டில் வழக்கமாக வசிப்பவர்களாகவும், தனியாக வசித்து சமைப்பவர்களாகவும் இருக்க வேண்டும். வேறு குடும்ப அட்டையில் உறுப்பினராக இருக்கக் கூடாது. தற்போதைய விதிகளை அதிகாரப்பூர்வ சேவையில் உறுதிப்படுத்தவும்.",
+    "documents_en": [
+      "Proof of current residence in Tamil Nadu; check the official service for accepted documents."
+    ],
+    "documents_ta": [
+      "தமிழ்நாட்டில் தற்போதைய முகவரிக்கான சான்று; ஏற்றுக்கொள்ளப்படும் ஆவணங்களை அதிகாரப்பூர்வ சேவையில் சரிபார்க்கவும்."
+    ],
+    "form_fields": [
+      { "id": "full_name", "label_en": "Applicant name", "label_ta": "விண்ணப்பதாரர் பெயர்", "type": "text" },
+      { "id": "district", "label_en": "District in Tamil Nadu", "label_ta": "தமிழ்நாட்டில் உள்ள மாவட்டம்", "type": "text" },
+      { "id": "family_members", "label_en": "Number of family members", "label_ta": "குடும்ப உறுப்பினர்களின் எண்ணிக்கை", "type": "number" }
+    ],
+    "source": "https://consumer.tn.gov.in/eligibility_ration.htm",
+    "source_label": "Tamil Nadu Civil Supplies and Consumer Protection Department"
+  },
+  {
+    "id": "ignoaps",
+    "name_en": "Indira Gandhi National Old Age Pension Scheme",
+    "name_ta": "இந்திரா காந்தி தேசிய முதியோர் ஓய்வூதியத் திட்டம்",
+    "category_en": "Social security",
+    "category_ta": "சமூகப் பாதுகாப்பு",
+    "summary_en": "A guided overview of the national old-age pension scheme and Tamil Nadu application route.",
+    "summary_ta": "தேசிய முதியோர் ஓய்வூதியத் திட்டம் மற்றும் தமிழ்நாட்டின் விண்ணப்ப வழிக்கான வழிகாட்டி.",
+    "eligibility_en": "The national scheme is for people aged 60 or older who live below the poverty line. State-level rules and support may vary; check the current Tamil Nadu service before applying.",
+    "eligibility_ta": "தேசியத் திட்டம் வறுமைக் கோட்டிற்குக் கீழ் வாழும் 60 வயது அல்லது அதற்கு மேற்பட்டவர்களுக்கானது. மாநில விதிகளும் உதவித் தொகையும் மாறலாம்; விண்ணப்பிக்கும் முன் தமிழ்நாட்டின் தற்போதைய சேவையில் சரிபார்க்கவும்.",
+    "documents_en": [
+      "The accepted age and eligibility proofs depend on the current state application; confirm them on the official service."
+    ],
+    "documents_ta": [
+      "வயது மற்றும் தகுதிக்கான ஏற்றுக்கொள்ளப்படும் சான்றுகள் தற்போதைய மாநில விண்ணப்பத்தைப் பொறுத்தது; அதிகாரப்பூர்வ சேவையில் உறுதிப்படுத்தவும்."
+    ],
+    "form_fields": [
+      { "id": "full_name", "label_en": "Applicant name", "label_ta": "விண்ணப்பதாரர் பெயர்", "type": "text" },
+      { "id": "age", "label_en": "Age in years", "label_ta": "வயது (ஆண்டுகள்)", "type": "number" },
+      { "id": "district", "label_en": "District", "label_ta": "மாவட்டம்", "type": "text" }
+    ],
+    "source": "https://www.myscheme.gov.in/schemes/nsap-ignoaps",
+    "source_label": "Government of India myScheme portal"
+  },
+  {
+    "id": "evr-nagammai-scholarship",
+    "name_en": "EVR Nagammai Scholarship",
+    "name_ta": "ஈ.வெ.ரா. நாகம்மை உதவித்தொகை",
+    "category_en": "Education",
+    "category_ta": "கல்வி",
+    "summary_en": "A guided overview of the Tamil Nadu postgraduate scholarship for eligible women students.",
+    "summary_ta": "தகுதியுள்ள மாணவிகளுக்கான தமிழ்நாடு முதுநிலை உதவித்தொகை பற்றிய வழிகாட்டி.",
+    "eligibility_en": "The Tamil Nadu Directorate of Collegiate Education lists this scholarship for women pursuing postgraduate Arts or Science courses at a recognised college in Tamil Nadu. Confirm current rules and application dates with the department.",
+    "eligibility_ta": "தமிழ்நாடு கல்லூரிக் கல்வி இயக்ககம், அங்கீகரிக்கப்பட்ட தமிழ்நாடு கல்லூரியில் கலை அல்லது அறிவியல் முதுநிலைப் படிப்பைத் தொடரும் மாணவிகளுக்கான உதவித்தொகையாக இதைக் குறிப்பிடுகிறது. தற்போதைய விதிகளையும் விண்ணப்பத் தேதிகளையும் துறையில் உறுதிப்படுத்தவும்.",
+    "documents_en": [
+      "Document requirements and application dates can change; check the current Directorate notice."
+    ],
+    "documents_ta": [
+      "ஆவணத் தேவைகளும் விண்ணப்பத் தேதிகளும் மாறலாம்; இயக்ககத்தின் தற்போதைய அறிவிப்பைப் பார்க்கவும்."
+    ],
+    "form_fields": [
+      { "id": "full_name", "label_en": "Student name", "label_ta": "மாணவர் பெயர்", "type": "text" },
+      { "id": "college", "label_en": "Recognised college", "label_ta": "அங்கீகரிக்கப்பட்ட கல்லூரி", "type": "text" },
+      { "id": "course", "label_en": "Postgraduate Arts or Science course", "label_ta": "முதுநிலை கலை அல்லது அறிவியல் பாடநெறி", "type": "text" }
+    ],
+    "source": "https://tndce.tn.gov.in/Home/scholarship",
+    "source_label": "Tamil Nadu Directorate of Collegiate Education"
+  },
+  {
+    "id": "ignwps",
+    "name_en": "Indira Gandhi National Widow Pension Scheme",
+    "name_ta": "இந்திரா காந்தி தேசிய விதவை ஓய்வூதியத் திட்டம்",
+    "category_en": "Social security",
+    "category_ta": "சமூகப் பாதுகாப்பு",
+    "summary_en": "A guided overview of the national widow pension scheme and state application route.",
+    "summary_ta": "தேசிய விதவை ஓய்வூதியத் திட்டம் மற்றும் மாநில விண்ணப்ப வழிக்கான வழிகாட்டி.",
+    "eligibility_en": "The national scheme is for widows aged 40 or older who belong to a below-poverty-line household. State-level rules may add requirements; verify the current Tamil Nadu service.",
+    "eligibility_ta": "தேசியத் திட்டம் வறுமைக் கோட்டிற்குக் கீழ் உள்ள குடும்பத்தைச் சேர்ந்த 40 வயது அல்லது அதற்கு மேற்பட்ட விதவைகளுக்கானது. மாநில விதிகளில் கூடுதல் நிபந்தனைகள் இருக்கலாம்; தமிழ்நாட்டின் தற்போதைய சேவையில் உறுதிப்படுத்தவும்.",
+    "documents_en": [
+      "The accepted age, household-status, and other proofs depend on the current state application; confirm them on the official service."
+    ],
+    "documents_ta": [
+      "வயது, குடும்ப நிலை மற்றும் பிற சான்றுகளுக்கான ஏற்றுக்கொள்ளப்படும் ஆவணங்கள் மாநில விண்ணப்பத்தைப் பொறுத்தது; அதிகாரப்பூர்வ சேவையில் உறுதிப்படுத்தவும்."
+    ],
+    "form_fields": [
+      { "id": "full_name", "label_en": "Applicant name", "label_ta": "விண்ணப்பதாரர் பெயர்", "type": "text" },
+      { "id": "age", "label_en": "Age in years", "label_ta": "வயது (ஆண்டுகள்)", "type": "number" },
+      { "id": "district", "label_en": "District", "label_ta": "மாவட்டம்", "type": "text" }
+    ],
+    "source": "https://www.myscheme.gov.in/schemes/ignwps",
+    "source_label": "Government of India myScheme portal"
+  },
+  {
+    "id": "igndps",
+    "name_en": "Indira Gandhi National Disability Pension Scheme",
+    "name_ta": "இந்திரா காந்தி தேசிய மாற்றுத்திறனாளி ஓய்வூதியத் திட்டம்",
+    "category_en": "Social security",
+    "category_ta": "சமூகப் பாதுகாப்பு",
+    "summary_en": "A guided overview of the national disability pension scheme and state application route.",
+    "summary_ta": "தேசிய மாற்றுத்திறனாளி ஓய்வூதியத் திட்டம் மற்றும் மாநில விண்ணப்ப வழிக்கான வழிகாட்டி.",
+    "eligibility_en": "The scheme is for people aged 18 or older who belong to a below-poverty-line household and meet the scheme's severe-disability criterion. The current national profile describes this as 80% disability or more; verify current state rules before applying.",
+    "eligibility_ta": "வறுமைக் கோட்டிற்குக் கீழ் உள்ள குடும்பத்தைச் சேர்ந்த 18 வயது அல்லது அதற்கு மேற்பட்டவர்களுக்கும், திட்டத்தின் கடுமையான மாற்றுத்திறன் நிபந்தனையைப் பூர்த்தி செய்பவர்களுக்கும் இந்தத் திட்டம். தற்போதைய தேசிய விவரத்தில் 80% அல்லது அதற்கு மேற்பட்ட மாற்றுத்திறன் குறிப்பிடப்பட்டுள்ளது; விண்ணப்பிக்கும் முன் மாநில விதிகளை உறுதிப்படுத்தவும்.",
+    "documents_en": [
+      "The accepted age, household-status, and disability proofs depend on the current state application; confirm them on the official service."
+    ],
+    "documents_ta": [
+      "வயது, குடும்ப நிலை மற்றும் மாற்றுத்திறன் சான்றுகளுக்கான ஏற்றுக்கொள்ளப்படும் ஆவணங்கள் மாநில விண்ணப்பத்தைப் பொறுத்தது; அதிகாரப்பூர்வ சேவையில் உறுதிப்படுத்தவும்."
+    ],
+    "form_fields": [
+      { "id": "full_name", "label_en": "Applicant name", "label_ta": "விண்ணப்பதாரர் பெயர்", "type": "text" },
+      { "id": "age", "label_en": "Age in years", "label_ta": "வயது (ஆண்டுகள்)", "type": "number" },
+      { "id": "district", "label_en": "District", "label_ta": "மாவட்டம்", "type": "text" }
+    ],
+    "source": "https://www.myscheme.gov.in/schemes/igndps",
+    "source_label": "Government of India myScheme portal"
+  }
+]
