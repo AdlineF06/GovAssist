@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "GovAssist"
+description = "A bilingual Tamil and English voice-guided demo that helps people explore sample public-benefit schemes and practice a step-by-step application flow."
+version = "1.0.0"
+id = "artifacts/govassist"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24520
+
+[services.development]
+run = "pnpm --filter @workspace/govassist run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/govassist", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/govassist/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24520"
+BASE_PATH = "/"

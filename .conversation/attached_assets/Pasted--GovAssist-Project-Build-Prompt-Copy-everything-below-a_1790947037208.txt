@@ -1,0 +1,132 @@
+# GovAssist — Project Build Prompt
+
+Copy everything below and paste it into your AI coding tool (Claude Code, Cursor, Bolt, etc.) to scaffold the project.
+
+---
+
+## PROMPT START
+
+Build a web application called **GovAssist** — a bilingual (Tamil + English) voice assistant that helps Indian citizens discover government schemes they're eligible for and guides them step-by-step through filling the application form.
+
+### Core Concept
+A user opens the web app, taps a mic button, and speaks a question in **either Tamil or English** (e.g., "Ration card eppadi apply pannanum?" or "How do I apply for a ration card?"). The app detects the language, finds the matching scheme from a local dataset, explains eligibility and required documents in the same language the user spoke, then walks them through the form fields one at a time via voice. Before final submission, it reads back the completed form for the user to confirm.
+
+### Tech Stack
+- **Frontend:** React + Tailwind CSS (single-page app)
+- **Speech-to-Text:** Browser's Web Speech API (`SpeechRecognition`), with `lang` dynamically set to `ta-IN` or `en-IN` based on a language toggle/auto-detect
+- **Text-to-Speech:** Browser's `SpeechSynthesis` API, same dynamic `lang` switching (`ta-IN` / `en-IN`)
+- **AI Reasoning / Intent + Form Logic:** Groq API (use `llama-3.1-8b-instant` or `llama-3.3-70b-versatile` model for low-latency responses — critical since this is a voice interface)
+- **Scheme Dataset:** Structured JSON built from data.gov.in public datasets (see Dataset section below)
+- **State Management:** React Context or simple useState/useReducer for conversation state (current scheme, current form field being collected, collected answers so far)
+- **Backend (optional but recommended):** Simple Node.js/Express proxy server to call Groq API (keeps the API key off the client) and to serve the local scheme dataset
+
+### 1. Groq API Integration
+- Set up a backend route `/api/chat` that:
+  - Accepts `{ message: string, language: "ta" | "en", conversationHistory: [], context: {...} }`
+  - Calls Groq's chat completion endpoint (`https://api.groq.com/openai/v1/chat/completions`) using `GROQ_API_KEY` from environment variables
+  - Uses a system prompt that instructs the model to:
+    - Respond ONLY in the detected language (Tamil or English) — never mix unless the user mixes
+    - Keep responses short and conversational (this will be read aloud via TTS, so avoid long paragraphs, markdown, or bullet lists in the spoken response)
+    - Follow a strict step-by-step form-filling flow: ask for ONE field at a time, confirm it was understood, then move to the next field
+    - Use the local scheme dataset (passed in as context) as the source of truth for eligibility rules, required documents, and form fields — never invent scheme details
+  - Returns the model's reply as plain text for the frontend to speak aloud
+
+Example system prompt to use in the backend:
+```
+You are GovAssist, a voice assistant helping Indian citizens apply for government schemes.
+Respond ONLY in {language}. Keep every response under 3 short sentences since it will be spoken aloud via text-to-speech.
+Never use markdown, bullet points, or special characters in your response.
+Use ONLY the scheme data provided in context — do not invent eligibility rules, documents, or form fields.
+When collecting form data, ask for exactly ONE field at a time, confirm the user's answer in one short sentence, then move to the next field.
+Once all fields are collected, summarize the full form back to the user and ask for explicit confirmation before marking it complete.
+```
+
+### 2. Dataset — data.gov.in
+- Go to **data.gov.in** and search for datasets related to:
+  - Public Distribution System / Ration Card schemes
+  - Scholarship schemes (state and central)
+  - Pension schemes (old age, widow, disability)
+  - Aadhaar-linked welfare schemes
+  - Any Tamil Nadu state government scheme datasets (e.g., TN e-Sevai, Amma schemes)
+- Download 1–2 relevant CSV/JSON datasets per scheme category
+- Transform the raw data.gov.in data into a clean, structured local JSON file: `data/schemes.json`, with this shape for each scheme:
+```json
+{
+  "id": "ration-card-new",
+  "name_en": "New Ration Card Application",
+  "name_ta": "புதிய ரேஷன் கார்டு விண்ணப்பம்",
+  "eligibility_en": "Indian citizen, resident of the state, no existing ration card in the family",
+  "eligibility_ta": "இந்திய குடிமகன், மாநில குடியிருப்பாளர், குடும்பத்தில் தற்போதைய ரேஷன் கார்டு இல்லாதவர்",
+  "documents_en": ["Aadhaar card", "Address proof", "Passport size photo", "Income certificate"],
+  "documents_ta": ["ஆதார் அட்டை", "முகவரி சான்று", "பாஸ்போர்ட் அளவு புகைப்படம்", "வருமான சான்றிதழ்"],
+  "form_fields": [
+    { "id": "full_name", "label_en": "Full Name", "label_ta": "முழு பெயர்", "type": "text" },
+    { "id": "aadhaar_number", "label_en": "Aadhaar Number", "label_ta": "ஆதார் எண்", "type": "number" },
+    { "id": "address", "label_en": "Address", "label_ta": "முகவரி", "type": "text" },
+    { "id": "family_members", "label_en": "Number of family members", "label_ta": "குடும்ப உறுப்பினர்கள் எண்ணிக்கை", "type": "number" }
+  ],
+  "source": "data.gov.in dataset link"
+}
+```
+- Build a simple keyword/embedding-based matcher (or just pass the full scheme list to Groq in the system context and let the model pick the right scheme based on the user's spoken query) to match a user's question to the correct scheme entry
+
+### 3. Bilingual Voice Support (Tamil + English)
+- Add a language toggle in the UI (manual switch: Tamil / English), defaulting to auto-detect:
+  - On first mic input, run a quick language detection (simple heuristic: check if the transcribed text contains Tamil Unicode characters `\u0B80-\u0BFF`; if yes, treat as Tamil, else English)
+  - Set `SpeechRecognition.lang` and `SpeechSynthesis` utterance `lang` to `ta-IN` or `en-IN` accordingly for all following turns in that session
+  - Allow the user to switch language mid-conversation by tapping the toggle, and carry over the conversation context (partially filled form) into the new language
+- Handle speech recognition errors gracefully (no speech detected, permission denied, unsupported browser) with clear on-screen text in both languages: "Please allow microphone access / மைக்ரோஃபோன் அனுமதி தேவை"
+
+### 4. Conversation Flow (implement as a state machine)
+1. **Idle** → user taps mic
+2. **Listening** → capture speech, convert to text
+3. **Intent Matching** → send transcribed text + scheme dataset to Groq, get matched scheme + eligibility explanation
+4. **Eligibility Confirmation** → speak eligibility criteria and required documents, ask user to confirm they want to proceed
+5. **Form Filling Loop** → for each field in `scheme.form_fields`, ask the question via TTS, listen for the answer via STT, confirm understood value, store it, move to next field
+6. **Read-back & Confirm** → once all fields collected, read the entire filled form back to the user in their language, ask for final "yes" confirmation
+7. **Complete** → show a summary screen with all collected data (this is the "submission" — for the hackathon demo, this can just display a completed form UI; no need to integrate with a real government backend)
+
+### 5. UI Requirements
+- Clean, large-text, high-contrast interface (optimize for low digital literacy users — big mic button, minimal clutter, clear visual state: listening / thinking / speaking)
+- Show live transcript of what the user said and what the assistant is saying, in addition to voice (for accessibility and demo purposes)
+- Progress indicator during form filling (e.g., "Field 2 of 5")
+- Language toggle visible at all times (Tamil / English)
+- Mobile-responsive, since most real users would access this on a phone
+
+### 6. Environment Variables
+```
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+### 7. Folder Structure
+```
+govassist/
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── MicButton.jsx
+│   │   │   ├── ConversationView.jsx
+│   │   │   ├── LanguageToggle.jsx
+│   │   │   └── FormSummary.jsx
+│   │   ├── hooks/
+│   │   │   ├── useSpeechRecognition.js
+│   │   │   └── useSpeechSynthesis.js
+│   │   ├── context/
+│   │   │   └── ConversationContext.jsx
+│   │   └── App.jsx
+├── server/                 # Node/Express backend
+│   ├── routes/chat.js
+│   ├── data/schemes.json
+│   └── index.js
+├── .env
+└── README.md
+```
+
+### 8. Deliverables for the Hackathon Demo
+- Working voice conversation for at least 2–3 schemes, in both Tamil and English
+- A clean README explaining: problem, solution, tech stack (Groq + data.gov.in + Web Speech API), how to run locally, and a demo video/GIF link
+- Keep the dataset small (5–10 schemes) but real, sourced from data.gov.in, for credibility during judging
+
+Build this now, starting with the folder structure and the Groq API backend route, then the speech hooks, then the conversation state machine, then the UI.
+
+## PROMPT END
